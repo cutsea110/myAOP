@@ -33,3 +33,19 @@ unfoldr psi = nu
     nu x = case psi x of
       Nothing -> Nil
       Just (a, x') -> Cons a (nu x')
+
+-- Tree
+data Tree a = Tip a | Bin (Tree a) (Tree a) deriving Show
+
+foldtree :: (a -> x, x -> x -> x) -> Tree a -> x
+foldtree (f, g) = mu
+  where
+    mu (Tip a) = f a
+    mu (Bin tl tr) = g (mu tl) (mu tr)
+
+unfoldtree :: (x -> Either a (x, x)) -> x -> Tree a
+unfoldtree psi = nu
+  where
+    nu x = case psi x of
+      Left a -> Tip a
+      Right (xl, xr) -> Bin (nu xl) (nu xr)
