@@ -81,3 +81,19 @@ unfoldl psi = nu
     nu x = case psi x of
       Nothing -> SNil
       Just (x', a) -> Snoc (nu x') a
+
+-- Snoc List^{+}
+data SListPlus a = SWrap a | SnocPlus (SListPlus a) a deriving Show
+
+foldlplus :: (a -> x, x -> a -> x) -> SListPlus a -> x
+foldlplus (f, g) = mu
+  where
+    mu (SWrap a) = f a
+    mu (SnocPlus x a) = g (mu x) a
+
+unfoldlplus :: (x -> Either a (x, a)) -> x -> SListPlus a
+unfoldlplus psi = nu
+  where
+    nu x = case psi x of
+      Left a -> SWrap a
+      Right (x', a) -> SnocPlus (nu x') a
