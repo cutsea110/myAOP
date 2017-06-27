@@ -65,3 +65,19 @@ unfoldrplus psi = nu
     nu x = case psi x of
       Left a -> Wrap a
       Right (a, x') -> ConsPlus a (nu x')
+
+-- Snoc List
+data SList a = SNil | Snoc (SList a) a deriving Show
+
+foldl :: (x, x -> a -> x) -> SList a -> x
+foldl (c, f) = mu
+  where
+    mu SNil = c
+    mu (Snoc x a) = f (mu x) a
+
+unfoldl :: (x -> Maybe (x, a)) -> x -> SList a
+unfoldl psi = nu
+  where
+    nu x = case psi x of
+      Nothing -> SNil
+      Just (x', a) -> Snoc (nu x') a
