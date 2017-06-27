@@ -49,3 +49,19 @@ unfoldtree psi = nu
     nu x = case psi x of
       Left a -> Tip a
       Right (xl, xr) -> Bin (nu xl) (nu xr)
+
+-- List^{+}
+data ListPlus a = Wrap a | ConsPlus a (ListPlus a) deriving Show
+
+foldrplus :: (a -> x, a -> x -> x) -> ListPlus a -> x
+foldrplus (f, g) = mu
+  where
+    mu (Wrap a) = f a
+    mu (ConsPlus a x) = g a (mu x)
+
+unfoldrplus :: (x -> Either a (a, x)) -> x -> ListPlus a
+unfoldrplus psi = nu
+  where
+    nu x = case psi x of
+      Left a -> Wrap a
+      Right (a, x') -> ConsPlus a (nu x')
