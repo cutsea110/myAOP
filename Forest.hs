@@ -8,11 +8,11 @@ foldf :: (a -> f -> t, f, t -> f -> f) -> Forest a -> f
 foldf (g,c,h) Null = c
 foldf (g,c,h) (Grows x xs) = h (foldt (g,c,h) x) (foldf (g,c,h) xs)
 
-unfoldt :: (t3 -> (a, (t1, t)), t -> Maybe ((t3, t2), (t1, t))) -> (t3, t2) -> Tree a
+unfoldt :: (x -> (a, (x', y)), y -> Maybe ((x, y'), (x', y))) -> (x, y') -> Tree a
 unfoldt (phi, psi) (x, y) = case phi x of
   (a, y') -> Fork a (unfoldf (phi, psi) y')
 
-unfoldf :: (t3 -> (a, (t1, t)), t -> Maybe ((t3, t2), (t1, t))) -> (t1, t) -> Forest a
+unfoldf :: (x -> (a, (x', y)), y -> Maybe ((x, y'), (x', y))) -> (x', y) -> Forest a
 unfoldf (phi, psi) (x, y) = case psi y of
   Nothing -> Null
   Just (x', y') -> Grows (unfoldt (phi, psi) x') (unfoldf (phi, psi) y')
