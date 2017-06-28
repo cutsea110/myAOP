@@ -13,4 +13,6 @@ apply (Exp g, x) = g x
 ana :: ((c, b) -> a) -> (c, b) -> (Exp a b, b)
 ana psi = nu
   where
+    -- :m +Control.Arrow 
+    -- nu = curry psi *** id
     nu (c, b) = (curry psi c, b)
