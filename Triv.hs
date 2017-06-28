@@ -33,3 +33,19 @@ uneither psi = nu
     nu x = case psi x of
       Left a -> Male a
       Right b -> Female b
+
+-- Bool
+data Logic = F | T deriving Show
+
+bool :: (x, x) -> Logic -> x
+bool (c, d) = mu
+  where
+    mu F = c
+    mu T = d
+
+unbool :: (x -> Either () ()) -> x -> Logic
+unbool psi = nu
+  where
+    nu x = case psi x of
+      Left () -> F
+      Right () -> T
