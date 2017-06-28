@@ -5,7 +5,7 @@ import Prelude hiding (curry)
 data Exp a b = Exp (b -> a)
 
 curry :: ((c, b) -> a) -> c -> Exp a b
-curry f = \c -> Exp (\b -> f (c, b))
+curry f c = Exp (\b -> f (c, b))
 
 apply :: (Exp a b, b) -> a
 apply (Exp g, x) = g x
