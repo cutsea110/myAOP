@@ -11,6 +11,8 @@ curry f c = Exp (\b -> f (c, b))
 apply :: (Exp a b, b) -> a
 apply (Exp g, x) = g x
 
+-- apply (curry (\(x,y) -> x + y) 3, 4)
+
 -- This is right?
 cata :: (a -> (c, b)) -> (Exp a b, b) -> (c, b)
 cata phi = mu
@@ -23,3 +25,8 @@ ana psi = nu
     -- :m +Control.Arrow 
     -- nu = curry psi *** id
     nu (c, b) = (curry psi c, b)
+
+-- apply (ana (\(x,y) -> x + y) (3,4))
+
+-- cata . ana :: ((c, b) -> a) -> (Exp (c, b) b, b) -> (Exp a b, b)
+-- ana . cata :: (a -> (c, b)) -> (Exp a b, b) -> (Exp (c, b) b, b)
