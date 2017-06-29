@@ -11,6 +11,7 @@ curry f c = Exp (\b -> f (c, b))
 apply :: (Exp a b, b) -> a
 apply (Exp g, x) = g x
 
+-- curry apply == id
 -- apply (curry (\(x,y) -> x + y) 3, 4)
 
 -- This is right?
