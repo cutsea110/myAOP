@@ -20,6 +20,8 @@ cata phi = mu
   where
     mu (Exp g, b) = phi (g b)
 
+-- cata (\n -> (n, n + 1)) (Exp (+1), 3)
+
 ana :: ((c, b) -> a) -> (c, b) -> (Exp a b, b)
 ana psi = nu
   where
